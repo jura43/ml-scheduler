@@ -1,0 +1,6 @@
+tensorflow
+kubernetes
+scikit-learn
+pandas
+numpy
+dill
