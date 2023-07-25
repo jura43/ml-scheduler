@@ -1,3 +1,5 @@
+import json
+
 def get_nodes(data):
     """
     Accepts: v1core.list_node()
@@ -11,12 +13,13 @@ def get_nodes(data):
                     nodes.append(n.metadata.name)
     return nodes
 
-def get_nodes_usage(nodes_list, nodes_info, nodes_metrics):
+def get_nodes_usage(nodes_list, nodes_info, nodes_metrics, ssd):
     """
     Requires:
       - list of nodes
       - v1core.list_node(label_selector="node=worker")
       - api_custom.list_cluster_custom_object(group="metrics.k8s.io",version="v1beta1", plural="nodes")
+      - json filename with ssd configuration
 
     Returns list of object that contain CPU usage, RAM usage, Memory pressure and Disk pressure
 
@@ -27,15 +30,21 @@ def get_nodes_usage(nodes_list, nodes_info, nodes_metrics):
         'memory_usage': 0.3,
         'memory_pressure': False,
         'disk_pressure': False,
+        'ssd': True
         },
         node_name: {
         'cpu_usage': 0.1,
         'memory_usage': 0.9,
         'memory_pressure': True,
-        'disk_pressure': False
+        'disk_pressure': False,
+        'ssd': False
         }
     ]`
     """
+
+    with open(ssd) as s:
+        ssd_nodes = json.load(s)
+        
     nodes_usage = {}
     
     for n in nodes_list:
@@ -43,6 +52,7 @@ def get_nodes_usage(nodes_list, nodes_info, nodes_metrics):
             if i.spec.unschedulable == None and i.metadata.name == n:
                 cpu_alloc = i.status.allocatable['cpu']
                 mem_alloc = i.status.allocatable['memory'][:-1][:-1]
+                ssd = ssd_nodes[n]
                 for status in i.status.conditions:
                     if status.type == "MemoryPressure":
                         mem_press = status.status
@@ -57,7 +67,8 @@ def get_nodes_usage(nodes_list, nodes_info, nodes_metrics):
         nodes_usage[n] = {'cpu_usage': cpu_usage,
                                 'memory_usage': mem_usage,
                                 'memory_pressure': mem_press,
-                                'disk_pressure': disk_press
+                                'disk_pressure': disk_press,
+                                'ssd': ssd
                                 }
 
     return nodes_usage

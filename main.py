@@ -18,10 +18,10 @@ api_custom = client.CustomObjectsApi(ApiClient)
 # Get list of all worker nodes
 nodes = get_nodes(v1core.list_node(label_selector="node=worker"))
 
-#nodes_set = make_prediction(nodes, v1core.list_node(label_selector="node=worker"), api_custom.list_cluster_custom_object(group="metrics.k8s.io",version="v1beta1", plural="nodes"))
-#print(nodes_set)
+nodes_set = make_prediction(nodes, v1core.list_node(label_selector="node=worker"), api_custom.list_cluster_custom_object(group="metrics.k8s.io",version="v1beta1", plural="nodes"), 'ssd.json')
+print(nodes_set)
 
-def schedule(name, node, namespace="default"):    
+""" def schedule(name, node, namespace="default"):    
     target=client.V1ObjectReference()
     target.kind="Node"
     target.apiVersion="v1"
@@ -46,4 +46,4 @@ def main():
     return
 
 if __name__ == '__main__':
-    main()
+    main() """
