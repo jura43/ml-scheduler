@@ -1,4 +1,6 @@
 {
-    "minikube-m02":false,
-    "minikube-m03":false
+    "jura-worker-1":false,
+    "jura-worker-2":false,
+    "jura-worker-3":true,
+    "jura-worker-4":true
 }
