@@ -67,8 +67,8 @@ def get_nodes_usage(nodes_list, nodes_info, nodes_metrics, pods, ssd_json):
               mem_usage = round(int(i['usage']['memory'][:-1][:-1])/int(mem_alloc), 2)
 
         # Counting pods on a node
+        pods_count = 0
         for p in pods.items:
-            pods_count = 0
             if p.spec.node_name == n:
                 pods_count+=1
 
