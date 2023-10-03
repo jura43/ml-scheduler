@@ -69,7 +69,7 @@ def get_nodes_usage(nodes_list, nodes_info, nodes_metrics, pods, ssd):
         # Counting pods on a node
         for p in pods.items:
             pods_count = 0
-            if p.spec.nodeName == n:
+            if p.spec.node_name == n:
                 pods_count+=1
 
 

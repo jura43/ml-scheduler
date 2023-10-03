@@ -3,9 +3,8 @@ from modules.predictions import make_prediction
 from modules.kubernetes_telemetry import get_nodes
 
 config.load_kube_config()
-configuration = client.Configuration()
 
-ApiClient = client.ApiClient(configuration)
+ApiClient = client.ApiClient()
 
 v1core = client.CoreV1Api(ApiClient)
 api_custom = client.CustomObjectsApi(ApiClient)
