@@ -13,7 +13,7 @@ def get_nodes(data):
                     nodes.append(n.metadata.name)
     return nodes
 
-def get_nodes_usage(nodes_list, nodes_info, nodes_metrics, pods, ssd):
+def get_nodes_usage(nodes_list, nodes_info, nodes_metrics, pods, ssd_json):
     """
     Requires:
       - list of nodes
@@ -44,7 +44,7 @@ def get_nodes_usage(nodes_list, nodes_info, nodes_metrics, pods, ssd):
     ]`
     """
 
-    with open(ssd) as s:
+    with open(ssd_json) as s:
         ssd_nodes = json.load(s)
         
     nodes_usage = {}

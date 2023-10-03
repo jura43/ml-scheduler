@@ -33,15 +33,15 @@ def make_prediction(nodes_list, nodes_info, nodes_metrics, pods, ssd):
             'frontend_cpu_usage': [nodes_usage[n[0]]['cpu_usage']],
             'frontend_memory_usage': [nodes_usage[n[0]]['memory_usage']],
             'frontend_pods': [nodes_usage[n[0]]['pods']],
-            'frontend_ssd': [nodes_usage[n[0]]],
+            'frontend_ssd': [nodes_usage[n[0]]['ssd']],
             'backend_cpu_usage': [nodes_usage[n[1]]['cpu_usage']],
             'backend_memory_usage': [nodes_usage[n[1]]['memory_usage']],
             'backend_pods': [nodes_usage[n[1]]['pods']],
-            'backend_ssd': [nodes_usage[n[1]]],
+            'backend_ssd': [nodes_usage[n[1]]['ssd']],
             'database_cpu_usage': [nodes_usage[n[2]]['cpu_usage']],
             'database_memory_usage': [nodes_usage[n[2]]['memory_usage']],
             'database_pods': [nodes_usage[n[2]]['pods']],
-            'database_ssd': [nodes_usage[n[2]]],
+            'database_ssd': [nodes_usage[n[2]]['ssd']],
             }
         
         data_normal = data_normalization(data)
