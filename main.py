@@ -14,7 +14,7 @@ api_custom = client.CustomObjectsApi(ApiClient)
 # Get list of all worker nodes
 nodes = get_nodes(v1core.list_node(label_selector="node=worker"))
 
-nodes_set = make_prediction(nodes, v1core.list_node(label_selector="node=worker"), api_custom.list_cluster_custom_object(group="metrics.k8s.io",version="v1beta1", plural="nodes"), 'ssd.json')
+nodes_set = make_prediction(nodes, v1core.list_node(label_selector="node=worker"), api_custom.list_cluster_custom_object(group="metrics.k8s.io",version="v1beta1", plural="nodes"), v1core.list_namespaced_pod("default", watch=False), 'ssd.json')
 print(nodes_set)
 
 """ def schedule(name, node, namespace="default"):    

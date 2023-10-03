@@ -6,12 +6,13 @@ import tensorflow as tf
 model = tf.keras.models.load_model('ml_scheduler_model.keras')
     
 
-def make_prediction(nodes_list, nodes_info, nodes_metrics, ssd):
+def make_prediction(nodes_list, nodes_info, nodes_metrics, pods, ssd):
     """
     Requires:
         - list of nodes for scheduling
         - v1core.list_node(label_selector="node=worker")
         - api_custom.list_cluster_custom_object(group="metrics.k8s.io",version="v1beta1", plural="nodes")
+        - list of namespaced pods (v1core.list_namespaced_pod("default", watch=False))
         - json filename with ssd configuraiton
 
     Returns set of nodes as a list
@@ -20,7 +21,7 @@ def make_prediction(nodes_list, nodes_info, nodes_metrics, ssd):
     `[minikube01, minikube02, minikube01]`
     """
     nodes_variations = list(itertools.product(nodes_list, repeat=3))
-    nodes_usage = get_nodes_usage(nodes_list, nodes_info, nodes_metrics, ssd)
+    nodes_usage = get_nodes_usage(nodes_list, nodes_info, nodes_metrics, pods, ssd)
 
     predictions = []
 
@@ -31,21 +32,21 @@ def make_prediction(nodes_list, nodes_info, nodes_metrics, ssd):
             'database': [n[2]],
             'frontend_cpu_usage': [nodes_usage[n[0]]['cpu_usage']],
             'frontend_memory_usage': [nodes_usage[n[0]]['memory_usage']],
-            'frontend_pods': [nodes_usage[n[0]]['frontend_pods']],
+            'frontend_pods': [nodes_usage[n[0]]['pods']],
             'frontend_ssd': [nodes_usage[n[0]]],
             'backend_cpu_usage': [nodes_usage[n[1]]['cpu_usage']],
             'backend_memory_usage': [nodes_usage[n[1]]['memory_usage']],
-            'backend_pods': [nodes_usage[n[1]]['backend_pods']],
+            'backend_pods': [nodes_usage[n[1]]['pods']],
             'backend_ssd': [nodes_usage[n[1]]],
             'database_cpu_usage': [nodes_usage[n[2]]['cpu_usage']],
             'database_memory_usage': [nodes_usage[n[2]]['memory_usage']],
-            'database_pods': [nodes_usage[n[2]]['database_pods']],
+            'database_pods': [nodes_usage[n[2]]['pods']],
             'database_ssd': [nodes_usage[n[2]]],
             }
         
         data_normal = data_normalization(data)
         prediction = model.predict(data_normal, verbose=0)
-        predictions.append({'set': n, 'pred_time': prediction, 'frontend_cpu': nodes_usage[n[0]]['cpu_usage'], 'frontend_ram': nodes_usage[n[0]]['memory_usage'], 'frontend_ssd': nodes_usage[n[0]]['ssd'], 'backend_cpu': nodes_usage[n[1]]['cpu_usage'], 'backend_ram': nodes_usage[n[1]]['memory_usage'], 'backend_ssd': nodes_usage[n[1]]['ssd'], 'database_cpu': nodes_usage[n[2]]['cpu_usage'], 'database_ram': nodes_usage[n[2]]['memory_usage'], 'database_ssd': nodes_usage[n[2]]['ssd']})
+        predictions.append({'set': n, 'pred_time': prediction, 'frontend_cpu': nodes_usage[n[0]]['cpu_usage'], 'frontend_ram': nodes_usage[n[0]]['memory_usage'], 'frontend_pods': nodes_usage[n[0]]['pods'], 'frontend_ssd': nodes_usage[n[0]]['ssd'], 'backend_cpu': nodes_usage[n[1]]['cpu_usage'], 'backend_ram': nodes_usage[n[1]]['memory_usage'], 'backendend_pods': nodes_usage[n[1]]['pods'], 'backend_ssd': nodes_usage[n[1]]['ssd'], 'database_cpu': nodes_usage[n[2]]['cpu_usage'], 'database_ram': nodes_usage[n[2]]['memory_usage'], 'database_pods': nodes_usage[n[2]]['pods'], 'database_ssd': nodes_usage[n[2]]['ssd']})
 
     # 1. Sorting by response time
     predictions_sorted = sorted(predictions, key=lambda t: t['pred_time'])
