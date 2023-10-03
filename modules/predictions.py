@@ -69,13 +69,13 @@ def make_prediction(nodes_list, nodes_info, nodes_metrics, pods, ssd):
     for n in range(0, len(sets_for_grade)):
         # Checking SSD
         if sets_for_grade[n]['frontend_ssd'] == True:
-            sets_for_grade[n]['metic'] -= 20
+            sets_for_grade[n]['metric'] -= 20
 
         if sets_for_grade[n]['backend_ssd'] == True:
-            sets_for_grade[n]['metic'] -= 20
+            sets_for_grade[n]['metric'] -= 20
 
         if sets_for_grade[n]['database_ssd'] == True:
-            sets_for_grade[n]['metic'] -= 0
+            sets_for_grade[n]['metric'] -= 0
 
         # Checking node resource usage
         sets_for_grade[n]['metric'] -= sets_for_grade[n]['frontend_cpu']*8
