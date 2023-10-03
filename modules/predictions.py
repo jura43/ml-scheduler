@@ -1,10 +1,9 @@
 from .data_normaliztion import data_normalization
 from .kubernetes_telemetry import get_nodes_usage
 import itertools
-import json
 import tensorflow as tf
 
-model = tf.keras.models.load_model('test.h5')
+model = tf.keras.models.load_model('ml_scheduler_model.keras')
     
 
 def make_prediction(nodes_list, nodes_info, nodes_metrics, ssd):
@@ -32,24 +31,20 @@ def make_prediction(nodes_list, nodes_info, nodes_metrics, ssd):
             'database': [n[2]],
             'frontend_cpu_usage': [nodes_usage[n[0]]['cpu_usage']],
             'frontend_memory_usage': [nodes_usage[n[0]]['memory_usage']],
-            'frontend_memory_pressure': [nodes_usage[n[0]]['memory_pressure']],
-            'frontend_disk_pressure': [nodes_usage[n[0]]['disk_pressure']],
+            'frontend_pods': [nodes_usage[n[0]]['frontend_pods']],
             'frontend_ssd': [nodes_usage[n[0]]],
             'backend_cpu_usage': [nodes_usage[n[1]]['cpu_usage']],
             'backend_memory_usage': [nodes_usage[n[1]]['memory_usage']],
-            'backend_memory_pressure': [nodes_usage[n[1]]['memory_pressure']],
-            'backend_disk_pressure': [nodes_usage[n[1]]['disk_pressure']],
+            'backend_pods': [nodes_usage[n[1]]['backend_pods']],
             'backend_ssd': [nodes_usage[n[1]]],
             'database_cpu_usage': [nodes_usage[n[2]]['cpu_usage']],
             'database_memory_usage': [nodes_usage[n[2]]['memory_usage']],
-            'database_memory_pressure': [nodes_usage[n[2]]['memory_pressure']],
-            'database_disk_pressure': [nodes_usage[n[2]]['disk_pressure']],
+            'database_pods': [nodes_usage[n[2]]['database_pods']],
             'database_ssd': [nodes_usage[n[2]]],
             }
         
         data_normal = data_normalization(data)
-        with tf.device('/cpu:0'):
-            prediction = model.predict(data_normal, verbose=0)
+        prediction = model.predict(data_normal, verbose=0)
         predictions.append({'set': n, 'pred_time': prediction, 'frontend_cpu': nodes_usage[n[0]]['cpu_usage'], 'frontend_ram': nodes_usage[n[0]]['memory_usage'], 'frontend_ssd': nodes_usage[n[0]]['ssd'], 'backend_cpu': nodes_usage[n[1]]['cpu_usage'], 'backend_ram': nodes_usage[n[1]]['memory_usage'], 'backend_ssd': nodes_usage[n[1]]['ssd'], 'database_cpu': nodes_usage[n[2]]['cpu_usage'], 'database_ram': nodes_usage[n[2]]['memory_usage'], 'database_ssd': nodes_usage[n[2]]['ssd']})
 
     # 1. Sorting by response time
