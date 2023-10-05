@@ -25,7 +25,7 @@ def check(set):
         schedule(set['frontend'], nodes_set[0][0])
         schedule(set['backend'], nodes_set[0][1])
         schedule(set['database'], nodes_set[0][2])
-        print('Prediction time:' + nodes_set[1])
+        print('Prediction time:' + str(nodes_set[1]))
         return True
 
     return False
