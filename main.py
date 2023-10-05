@@ -19,7 +19,7 @@ def check(set):
         Function for checking if frontend, backend and database pods have been created, if yes schedule them
     """
 
-    if set['frontend'] and set['backend'] and set['database']:
+    if 'frontend' in set and 'backend' in set and 'database' in set:
         print('Scheduling pods...')
         nodes_set = make_prediction(nodes, v1core.list_node(label_selector="node=worker"), api_custom.list_cluster_custom_object(group="metrics.k8s.io",version="v1beta1", plural="nodes"), v1core.list_namespaced_pod("default", watch=False), 'ssd.json')
         schedule(set['frontend'], nodes_set[0][0])
@@ -27,7 +27,7 @@ def check(set):
         schedule(set['database'], nodes_set[0][2])
         print('Prediction time:' + nodes_set[1])
         return True
-    
+
     return False
 
 
