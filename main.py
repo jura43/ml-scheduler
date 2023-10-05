@@ -58,13 +58,13 @@ def main():
         if event['type'] == "ADDED" and event['object'].status.phase == "Pending" and event['object'].spec.scheduler_name == 'ml-scheduler':
             try:
                 if event['object'].metadata.labels['side'] == 'frontend':
-                    app_pods['frontend': event['object'].metadata.name]
+                    app_pods['frontend'] = event['object'].metadata.name
                     if check: app_pods = {}
                 if event['object'].metadata.labels['side'] == 'backend':
-                    app_pods['backend': event['object'].metadata.name]
+                    app_pods['backend'] = event['object'].metadata.name
                     if check: app_pods = {}
                 if event['object'].metadata.labels['side'] == 'database':
-                    app_pods['database': event['object'].metadata.name]
+                    app_pods['database'] = event['object'].metadata.name
                     if check: app_pods = {}
             except client.rest.ApiException as e:
                 print (e)
