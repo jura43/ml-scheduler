@@ -87,6 +87,5 @@ def make_prediction(nodes_list, nodes_info, nodes_metrics, pods, ssd):
 
     # 5. Finding most efficient set
     best_prediction = sorted(predictions, key=lambda t: t['metric'], reverse=True)
-    print(best_prediction)
 
-    return best_prediction[0]['set']
+    return best_prediction[0]['set'], best_prediction[0]['pred_time'][0][0]
