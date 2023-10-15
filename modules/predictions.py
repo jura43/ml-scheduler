@@ -86,6 +86,6 @@ def make_prediction(nodes_list, nodes_info, nodes_metrics, pods, ssd):
         sets_for_grade[n]['metric'] -= sets_for_grade[n]['database_ram']*5
 
     # 5. Finding most efficient set
-    best_prediction = sorted(predictions, key=lambda t: t['metric'], reverse=True)
+    best_prediction = sorted(sets_for_grade, key=lambda t: t['metric'], reverse=True)
 
     return best_prediction[0]['set'], best_prediction[0]['pred_time'][0][0]
