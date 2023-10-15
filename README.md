@@ -20,7 +20,7 @@ Lab environment consisted of five nodes, one contorl node and four worker nodes.
 For running all Python scripts I used Python 3.11.
 
 ## Findings
-After running tests without and with workload on worker nodes, I find machine learning scheduler always gave better results. Results showd in the table below are avrages of ten samples.
+After running tests without and with workload on worker nodes, I find machine learning scheduler always gave better results. Results shows in the table below are averages of ten samples.
 |   | Predicted time | ML scheduler  | MAE  | Default scheduler  |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 | No workload  | 6.45 | 5.89 | 0.56 | 5.94 |
