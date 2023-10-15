@@ -23,9 +23,9 @@ For running all Python scripts I used Python 3.11.
 After running tests without and with workload on worker nodes, I find machine learning scheduler always gave better results. Results showd in the table below are avrages of ten samples.
 |   | Predicted time | ML scheduler  | MAE  | Default scheduler  |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-| No workload  | 6.45  | 5.89  | 0.56  | 5.94  |
-| Workload on 1 node  | 6.4  | 6.09  | 0.31  | 6.15  |
-| Workload on 2 node  | 6.53  | 6.4  | 0.13  | 6.95  |
-| Workload on 3 node  | 6.6  | 6.69  | 0.09  | 7.88  |
-| Workload on 4 node | 7.58  | 10.76  | 3.18  | 12.72  |
+| No workload  | 6.45 | 5.89 | 0.56 | 5.94 |
+| Workload on 1 node  | 6.4 | 6.09 | 0.31 | 6.15 |
+| Workload on 2 node  | 6.53 | 6.4 | 0.13 | 6.95 |
+| Workload on 3 node  | 6.6 | 6.69 | 0.09 | 7.88 |
+| Workload on 4 node | 7.58 | 10.76 | 3.18 | 12.72 |
 
